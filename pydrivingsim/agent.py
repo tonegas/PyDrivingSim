@@ -25,14 +25,13 @@ class Agent():
     __metadata = {
         "dt": 0.05
     }
-    def __init__(self, vehicle: Vehicle, world: World):
+    def __init__(self, vehicle: Vehicle):
         c.test_lib()
-        self.world = world
         self.vehicle = vehicle
 
         # Simulation information
-        assert self.__metadata["dt"] >= world.get_dt()
-        self.sim_call_freq = self.__metadata["dt"] / world.get_dt()
+        assert self.__metadata["dt"] >= World().get_dt()
+        self.sim_call_freq = self.__metadata["dt"] / World().get_dt()
         self.num_of_step = 0
 
         IP = [127, 0, 0, 1]  # Remote usage
@@ -64,9 +63,9 @@ class Agent():
         self.num_of_step += 1
         self.__filtering(self.vehicle)
         if self.num_of_step >= self.sim_call_freq:
-            self.__compute(self.vehicle, self.world)
+            self.__compute(self.vehicle)
             self.num_of_step = 0
-            self.__clear_filter(self.vehicle)
+            self.__clear_filter()
 
 
     def __filtering(self, v :Vehicle):
@@ -75,20 +74,20 @@ class Agent():
         self.YawRateFild += v.state[5]
         self.SteerWhlAg += v.state[10]
 
-    def __clear_filter(self, v :Vehicle):
+    def __clear_filter(self):
         s: input_data_str = self.scenario_msg
         self.ALgtFild = 0
         self.YawRateFild = 0
         self.SteerWhlAg = 0
 
-    def __compute(self, v :Vehicle, w :World):
+    def __compute(self, v :Vehicle):
         s :input_data_str = self.scenario_msg
         m :output_data_str = self.manoeuvre_msg
 
         # Closing env if agent request to close
         if m.Status == 1:
             self.terminate()
-            self.world.exit()
+            World().exit()
 
         # Basic parameters
         self.cycle_number += 1
@@ -106,7 +105,7 @@ class Agent():
         s.YawRateFild = self.YawRateFild/self.num_of_step
         s.SteerWhlAg = self.SteerWhlAg/self.num_of_step
         s.RequestedCruisingSpeed = self.requested_cruising_speed
-        for obj in w.obj_list:
+        for obj in World().obj_list:
             if type(obj) is TrafficLight:
                 trafficlight = obj
                 break
@@ -140,7 +139,7 @@ class Agent():
 
     def terminate(self):
         # Basic parameters
-        self.world.loop = 0
+        World().loop = 0
         self.cycle_number += 1
         self.scenario_msg.CycleNumber = self.cycle_number
         self.scenario_msg.TimeStamp = ct.c_double(datetime.timestamp(datetime.now()))

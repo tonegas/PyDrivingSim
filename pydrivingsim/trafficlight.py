@@ -5,19 +5,17 @@
 import pygame
 from random import randint, random
 
-from pydrivingsim.world import world
-from pydrivingsim import VirtualObject
+from pydrivingsim import VirtualObject, World
 
 class TrafficLightSprite(pygame.sprite.Sprite):
     def __init__(self, trafficlight):
         super().__init__()
-        self.world = world
         img_list = ["imgs/trafficlight_green.png", "imgs/trafficlight_yellow.png", "imgs/trafficlight_red.png"]
         self.image_fix = []
         for i,img in enumerate(img_list):
             sprite = pygame.image.load(img).convert_alpha()
             w, h = sprite.get_size()
-            scale = (world.scaling_factor * 0.7) / w
+            scale = (World().scaling_factor * 0.7) / w
             self.image_fix.append(pygame.transform.smoothscale(sprite, (int(w * scale), int(h * scale))))
 
         self.image = self.image_fix[0]
@@ -27,8 +25,8 @@ class TrafficLightSprite(pygame.sprite.Sprite):
 
     def update(self) -> None:
         self.rect.center = [
-            self.size[0] / 2 + self.trafficlight.pos[0] * self.world.scaling_factor - self.world.get_world_pos()[0],
-            self.trafficlight.pos[1] * self.world.scaling_factor - self.world.get_world_pos()[1]
+            self.size[0] / 2 + self.trafficlight.pos[0] * World().scaling_factor - World().get_world_pos()[0],
+            self.trafficlight.pos[1] * World().scaling_factor - World().get_world_pos()[1]
         ]
         self.image = self.image_fix[self.trafficlight.state]
 
@@ -50,7 +48,6 @@ class TrafficLight(VirtualObject):
 
         self.clock = None
         self.state = 0
-        self.world = world
         self.reset()
 
     def set_pos(self, point: tuple):
@@ -81,7 +78,7 @@ class TrafficLight(VirtualObject):
 
     def render( self ):
         self.trafficlight.update()
-        self.group.draw(self.world.screen)
+        self.group.draw(World().screen)
 
     def get_state(self):
         return self.state

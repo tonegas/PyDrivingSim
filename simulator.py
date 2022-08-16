@@ -4,8 +4,7 @@
 
 import signal
 
-from pydrivingsim import world, Vehicle, TrafficLight, Agent
-
+from pydrivingsim import World, Vehicle, TrafficLight, Agent
 
 class GracefulKiller:
   kill_now = False
@@ -20,12 +19,12 @@ def main():
     #world = World()
     vehicle = Vehicle()
     vehicle.set_screen_here()
-    agent = Agent(vehicle, world)
+    agent = Agent(vehicle)
     trafficlight = TrafficLight()
     trafficlight.set_pos((162,-2))
 
     killer = GracefulKiller()
-    while not killer.kill_now and world.loop:
+    while not killer.kill_now and World().loop:
         #x, dx = vehicle.get_state()
         #print(x[3]*3.6)
         agent.compute()
@@ -39,9 +38,9 @@ def main():
         #    vehicle.control([0,0])
         #print("time: "+str(world.time)+ " req-gas: " + str(action[0]) + " a: " + str(dx[3]) + " v: " + str(x[3]))
         #print("time :" + str(world.time))
-        world.update()
+        World().update()
 
     agent.terminate()
-    world.exit()
+    World().exit()
 
 main()

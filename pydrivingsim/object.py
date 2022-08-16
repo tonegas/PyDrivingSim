@@ -2,17 +2,17 @@
 # Date    : 09/08/2022
 # License : MIT
 
-from pydrivingsim.world import world
+from pydrivingsim import World
 
 class VirtualObject():
     def __init__( self, dt ):
         # Simulation information
-        assert dt >= world.get_dt()
-        self.sim_call_freq = dt / world.get_dt()
+        assert dt >= World().get_dt()
+        self.sim_call_freq = dt / World().get_dt()
         self.num_of_step = 0
 
         # Add the object to the world
-        world.add(self)
+        World().add(self)
 
     def compute(self):
         self.num_of_step += 1

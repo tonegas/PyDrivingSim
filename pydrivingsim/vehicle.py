@@ -8,8 +8,7 @@ import numpy as np
 from vehicle_model.vehicle_params import VehicleParams
 from vehicle_model.pacejka_params import PacejkaParam
 from vehicle_model.vehicle_double_track_model import vehicle_double_track_model
-from pydrivingsim.world import world
-from pydrivingsim import VirtualObject
+from pydrivingsim import VirtualObject, World
 
 class VehicleSprite(pygame.sprite.Sprite):
     def __init__(self, vehicle):
@@ -17,7 +16,7 @@ class VehicleSprite(pygame.sprite.Sprite):
         self.vehicle = vehicle
         image = pygame.image.load("imgs/car.png").convert_alpha()
         w, h = image.get_size()
-        scale = (world.scaling_factor * vehicle.vehicle.L) / w
+        scale = (World().scaling_factor * vehicle.vehicle.L) / w
         self.image_fix = pygame.transform.smoothscale(image, (int(w * scale), int(h * scale)))
 
         self.image = self.image_fix
@@ -26,8 +25,8 @@ class VehicleSprite(pygame.sprite.Sprite):
 
     def update(self, state) -> None:
         self.rect.center = [
-            (self.size[0] / 2 + (state[0] - self.vehicle.vehicle.Lr) * world.scaling_factor) - world.get_world_pos()[0],
-            state[1] * world.scaling_factor - world.get_world_pos()[1]
+            (self.size[0] / 2 + (state[0] - self.vehicle.vehicle.Lr) * World().scaling_factor) - World().get_world_pos()[0],
+            state[1] * World().scaling_factor - World().get_world_pos()[1]
         ]
         self.image = pygame.transform.rotozoom(self.image_fix, math.degrees(-state[2]), 1)
     # self.image = pygame.transform.rotate(self.image_fix, math.degrees(-state[2]))
@@ -49,7 +48,6 @@ class Vehicle(VirtualObject):
 
         self.clock = None
         self.state = None
-        self.world = world
 
         self.action = (0,0)
         self.reset()
@@ -93,11 +91,11 @@ class Vehicle(VirtualObject):
     #         self.num_of_step = 0
 
     def set_screen_here(self):
-        self.world.set_world_pos((self.state[0],self.state[1]))
+        World().set_world_pos((self.state[0],self.state[1]))
 
     def render( self ):
         self.car.update(self.state)
-        self.group.draw(self.world.screen)
+        self.group.draw(World().screen)
 
     def control(self, action):
         self.action = action

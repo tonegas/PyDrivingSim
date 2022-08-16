@@ -4,7 +4,14 @@
 
 import pygame
 
-class World():
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class World(metaclass=Singleton):
     __metadata = {
         "render_fps": 50,
         "world_size": 400,              # [m] this dimension is maapped on the width of the screen
@@ -74,5 +81,3 @@ class World():
         pygame.display.quit()
         pygame.quit()
         exit()
-
-world = World()

@@ -10,6 +10,3 @@ from pydrivingsim.trafficlight import TrafficLight
 
 # The Agent
 from pydrivingsim.agent import Agent
-
-# The world instance
-from pydrivingsim.world import world
