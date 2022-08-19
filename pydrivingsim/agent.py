@@ -111,14 +111,19 @@ class Agent():
                 break
 
         # Trafficlight parameters
-        s.NrTrfLights = 1
-        s.TrfLightDist = trafficlight.pos[0] - v.state[0]
-        s.TrfLightCurrState = trafficlight.state+1        # 1 = Green, 2 = Yellow, 3 = Red, 0 = Flashing
-        s.TrfLightFirstTimeToChange = trafficlight.time_phases[trafficlight.state]-trafficlight.time_past_switch
-        s.TrfLightFirstNextState = divmod(trafficlight.state+1,3)[1]+1
-        s.TrfLightSecondTimeToChange = s.TrfLightFirstTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+1,2)[1]]
-        s.TrfLightSecondNextState = divmod(trafficlight.state+2,3)[1]+1
-        s.TrfLightThirdTimeToChange = s.TrfLightSecondTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+2,2)[1]]
+        if trafficlight.pos[0] - v.state[0] > -1.5:
+            s.NrTrfLights = 1
+            s.TrfLightDist = trafficlight.pos[0] - v.state[0]
+            s.TrfLightCurrState = trafficlight.state+1        # 1 = Green, 2 = Yellow, 3 = Red, 0 = Flashing
+            s.TrfLightFirstTimeToChange = trafficlight.time_phases[trafficlight.state]-trafficlight.time_past_switch
+            s.TrfLightFirstNextState = divmod(trafficlight.state+1,3)[1]+1
+            s.TrfLightSecondTimeToChange = s.TrfLightFirstTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+1,2)[1]]
+            s.TrfLightSecondNextState = divmod(trafficlight.state+2,3)[1]+1
+            s.TrfLightThirdTimeToChange = s.TrfLightSecondTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+2,2)[1]]
+        else:
+            s.NrTrfLights = 0
+            s.TrfLightDist = trafficlight.pos[0] - v.state[0]
+
         print("CS:" + str(s.TrfLightDist))
         # print("CS:" + str(s.TrfLightCurrState))
         # print("NS:(" + str(s.TrfLightFirstTimeToChange) + "," + str(s.TrfLightFirstNextState) + ")")
