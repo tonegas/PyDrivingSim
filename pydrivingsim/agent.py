@@ -122,9 +122,10 @@ class Agent():
             s.TrfLightThirdTimeToChange = s.TrfLightSecondTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+2,2)[1]]
         else:
             s.NrTrfLights = 0
-            s.TrfLightDist = trafficlight.pos[0] - v.state[0]
+            if trafficlight.pos[0] - v.state[0] < -20.0:
+                s.Status = 1
 
-        print("CS:" + str(s.TrfLightDist))
+        # print("CS:" + str(s.TrfLightDist))
         # print("CS:" + str(s.TrfLightCurrState))
         # print("NS:(" + str(s.TrfLightFirstTimeToChange) + "," + str(s.TrfLightFirstNextState) + ")")
         # print("NNS:(" + str(s.TrfLightSecondTimeToChange) + "," + str(s.TrfLightSecondNextState) + ")")
