@@ -1,9 +1,15 @@
 
 import ctypes as ct
+from sys import platform
 
 import agent.interfaces_python_data_structs as interface
 
-lib_file = "agent/agent_lib.dll"
+if platform == "linux" or platform == "linux2":
+    pass
+elif platform == "darwin":
+    lib_file = "agent/libagent.dylib"
+elif platform == "win32":
+    lib_file = "agent/agent_lib.dll"
 
 class AgentConnector():
     def __init__(self):
