@@ -3,10 +3,11 @@ import ctypes as ct
 
 import agent.interfaces_python_data_structs as interface
 
+lib_file = "agent/agent_lib.dll"
 
 class AgentConnector():
-    def __init__(self, dll_file):
-        self.agentlib = ct.CDLL(dll_file)
+    def __init__(self):
+        self.agentlib = ct.CDLL(lib_file)
         # /*  ------------------------------------ CLIENT FUNCTIONS ------------------------------------  */
         # Fuction for testing library loading
         # void test_lib_agent();
