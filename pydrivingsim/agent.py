@@ -10,8 +10,8 @@ from agent.interfaces_python_data_structs import input_data_str, output_data_str
 
 from pydrivingsim import World, Vehicle, TrafficLight
 
-lib_file = "agent/libagent.dylib"
-c = agent_lib.AgentConnector(lib_file)
+
+c = agent_lib.AgentConnector()
 
 # Define types
 type_integer_4 = ct.c_int32 * 4

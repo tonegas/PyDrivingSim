@@ -1,12 +1,19 @@
 
 import ctypes as ct
+from sys import platform
 
 import agent.interfaces_python_data_structs as interface
 
+if platform == "linux" or platform == "linux2":
+    pass
+elif platform == "darwin":
+    lib_file = "agent/libagent.dylib"
+elif platform == "win32":
+    lib_file = "agent/agent_lib.dll"
 
 class AgentConnector():
-    def __init__(self, dll_file):
-        self.agentlib = ct.CDLL(dll_file)
+    def __init__(self):
+        self.agentlib = ct.CDLL(lib_file)
         # /*  ------------------------------------ CLIENT FUNCTIONS ------------------------------------  */
         # Fuction for testing library loading
         # void test_lib_agent();
