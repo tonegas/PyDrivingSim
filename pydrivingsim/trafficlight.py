@@ -3,7 +3,12 @@
 # License : MIT
 
 import pygame
-from random import randint, random
+import random
+
+# red then green no stop
+#random.seed(10)
+# stop with red
+random.seed(1)
 
 from pydrivingsim import VirtualObject, World
 
@@ -58,8 +63,8 @@ class TrafficLight(VirtualObject):
 
     def reset( self ):
         #Initial condition of the vehicle
-        self.state = randint(0, 2)
-        self.time_past_switch = random()*self.time_phases[self.state]
+        self.state = random.randint(0, 2)
+        self.time_past_switch = random.random()*self.time_phases[self.state]
 
     def object_freq_compute(self):
         self.time_past_switch += self.__metadata["dt"]
