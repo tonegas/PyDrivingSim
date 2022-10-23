@@ -16,7 +16,6 @@ class GracefulKiller:
     self.kill_now = True
 
 def main():
-    #world = World()
     vehicle = Vehicle()
     vehicle.set_screen_here()
     agent = Agent(vehicle)
@@ -25,19 +24,12 @@ def main():
 
     killer = GracefulKiller()
     while not killer.kill_now and World().loop:
-        #x, dx = vehicle.get_state()
-        #print(x[3]*3.6)
         agent.compute()
-
-        #print(trafficlight.pos[0] - obs[0])
-        #p = (20 - x[3])*3
         action = agent.get_action()
+
         vehicle.set_screen_here()
         vehicle.control([action[0], 0])
-        #else:
-        #    vehicle.control([0,0])
-        #print("time: "+str(world.time)+ " req-gas: " + str(action[0]) + " a: " + str(dx[3]) + " v: " + str(x[3]))
-        #print("time :" + str(world.time))
+
         World().update()
 
     agent.terminate()
