@@ -226,28 +226,17 @@ def vehicle_double_track_model(dX_prev, X, pedal_req, delta_req, pacejka_data, v
     alpha_fr_Dot = -(alpha__fr - alpha__fr__ss) / ly
     alpha_fl_Dot = -(alpha__fl - alpha__fl__ss) / ly
     # Longitudinal slip first order dynamics
-    kappa_rr_Dot = - (kappa__rr - kappa__rr__ss) / lx
-    kappa_rl_Dot = - (kappa__rl - kappa__rl__ss) / lx
-    kappa_fr_Dot = - (kappa__fr - kappa__fr__ss) / lx
-    kappa_fl_Dot = - (kappa__fl - kappa__fl__ss) / lx
+    kappa_rr_Dot = -(kappa__rr - kappa__rr__ss) / lx
+    kappa_rl_Dot = -(kappa__rl - kappa__rl__ss) / lx
+    kappa_fr_Dot = -(kappa__fr - kappa__fr__ss) / lx
+    kappa_fl_Dot = -(kappa__fl - kappa__fl__ss) / lx
+    # Wheel spin dynamics
+    omega_rr_Dot = (-Fx__rr * Rr + Tw__rr) / iwa__r
+    omega_rl_Dot = (-Fx__rl * Rr + Tw__rl) / iwa__r
+    omega_fr_Dot = (-Fx__fr * Rf + Tw__fr) / iwa__f
+    omega_fl_Dot = (-Fx__fl * Rf + Tw__fl) / iwa__f
     # pedal dynamics
     ped_Dot      = (pedal_req - ped) / tau_ped
-
-    # Wheel spin dynamics
-    if fabs(u) < (Vlow * 2):
-        corr = fabs(u) / (Vlow * 2)
-        omega_rr_Dot = (-Fx__rr * corr * Rr + Tw__rr) / iwa__r
-        omega_rl_Dot = (-Fx__rl * corr * Rr + Tw__rl) / iwa__r
-        omega_fr_Dot = (-Fx__fr * corr * Rf + Tw__fr) / iwa__f
-        omega_fl_Dot = (-Fx__fl * corr * Rf + Tw__fl) / iwa__f
-    else:
-        omega_rr_Dot = (-Fx__rr * Rr + Tw__rr) / iwa__r
-        omega_rl_Dot = (-Fx__rl * Rr + Tw__rl) / iwa__r
-        omega_fr_Dot = (-Fx__fr * Rf + Tw__fr) / iwa__f
-        omega_fl_Dot = (-Fx__fl * Rf + Tw__fl) / iwa__f
-
-    if fabs(u) < Vlow / 6 and ped < 0:
-        u_Dot = -u * 2
 
     # Empty output vectors are here initialized
     dX = np.zeros(24)
