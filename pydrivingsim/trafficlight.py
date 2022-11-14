@@ -8,7 +8,7 @@ import random
 # red then green no stop
 #random.seed(10)
 # stop with red
-random.seed(1)
+#random.seed(1)
 
 from pydrivingsim import VirtualObject, World
 
