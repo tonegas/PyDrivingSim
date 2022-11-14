@@ -116,9 +116,9 @@ class Agent():
             s.TrfLightCurrState = trafficlight.state+1        # 1 = Green, 2 = Yellow, 3 = Red, 0 = Flashing
             s.TrfLightFirstTimeToChange = trafficlight.time_phases[trafficlight.state]-trafficlight.time_past_switch
             s.TrfLightFirstNextState = divmod(trafficlight.state+1,3)[1]+1
-            s.TrfLightSecondTimeToChange = s.TrfLightFirstTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+1,2)[1]]
+            s.TrfLightSecondTimeToChange = s.TrfLightFirstTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+1,3)[1]]
             s.TrfLightSecondNextState = divmod(trafficlight.state+2,3)[1]+1
-            s.TrfLightThirdTimeToChange = s.TrfLightSecondTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+2,2)[1]]
+            s.TrfLightThirdTimeToChange = s.TrfLightSecondTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+2,3)[1]]
         else:
             s.NrTrfLights = 0
             if trafficlight.pos[0] - v.state[0] < -20.0:
