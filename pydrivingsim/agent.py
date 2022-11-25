@@ -50,7 +50,7 @@ class Agent():
         self.manoeuvre_msg_pointer = ct.pointer(self.manoeuvre_msg)
 
         self.cycle_number = 0
-        self.requested_cruising_speed = 15
+        self.requested_cruising_speed = 20
         self.action = (0,0)
 
         # Data to be filtered
@@ -140,7 +140,7 @@ class Agent():
         # print("CycleNumber = " + str(m.CycleNumber))
         # print("RequestedAcc = " + str(m.RequestedAcc))
 
-        self.action = (m.RequestedAcc,0)
+        self.action = (m.RequestedAcc,m.RequestedSteerWhlAg)
 
     def terminate(self):
         # Basic parameters

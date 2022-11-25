@@ -28,7 +28,7 @@ def main():
         action = agent.get_action()
 
         vehicle.set_screen_here()
-        vehicle.control([action[0], 0])
+        vehicle.control([action[0], action[1]])
 
         World().update()
 
