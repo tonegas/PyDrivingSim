@@ -104,6 +104,15 @@ class Agent():
         s.YawRateFild = self.YawRateFild/self.num_of_step
         s.SteerWhlAg = self.SteerWhlAg/self.num_of_step
         s.RequestedCruisingSpeed = self.requested_cruising_speed
+
+        # Lateral Position
+        road_width = 3.75
+        road_pos = v.state[1] - road_width/4
+        if abs(road_pos) <= (road_width/2):
+            s.LaneWidth = road_width
+            s.LatOffsLineR = -(s.LaneWidth - road_width/4) + v.state[1]
+            s.LatOffsLineL = road_width/4 + v.state[1]
+
         for obj in World().obj_list:
             if type(obj) is TrafficLight:
                 trafficlight = obj
@@ -140,6 +149,7 @@ class Agent():
         # print("CycleNumber = " + str(m.CycleNumber))
         # print("RequestedAcc = " + str(m.RequestedAcc))
 
+        #self.action = (0.01, 0.01)
         self.action = (m.RequestedAcc,m.RequestedSteerWhlAg)
 
     def terminate(self):
