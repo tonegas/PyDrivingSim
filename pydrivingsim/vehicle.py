@@ -18,6 +18,10 @@ class VehicleSprite(pygame.sprite.Sprite):
         w, h = image.get_size()
         scale = (World().scaling_factor * vehicle.vehicle.L) / w
         self.image_fix = pygame.transform.smoothscale(image, (int(w * scale), int(h * scale)))
+        # Correct dimension of the vehicle but the picture is stretched
+        # scalex = (World().scaling_factor * vehicle.vehicle.L) / w
+        # scaley = (World().scaling_factor * vehicle.vehicle.Wf) / h
+        # self.image_fix = pygame.transform.smoothscale(image, (int(w * scalex), int(h * scaley)))
 
         self.image = self.image_fix
         self.rect = self.image_fix.get_rect()
