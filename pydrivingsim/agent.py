@@ -99,6 +99,7 @@ class Agent():
         # Vehicle parameters
         s.VehicleLen = v.vehicle.vehicle.L                          # double - lenght dimension [m]
         s.VehicleWidth = v.vehicle.vehicle.Wf                       # double - width dimension [m]
+        s.LaneHeading = v.state[2]
         s.VLgtFild = v.state[3]
         s.ALgtFild = self.ALgtFild/self.num_of_step
         s.YawRateFild = self.YawRateFild/self.num_of_step
