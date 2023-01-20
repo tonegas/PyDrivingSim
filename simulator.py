@@ -4,7 +4,7 @@
 
 import signal
 
-from pydrivingsim import World, Vehicle, TrafficLight, Agent
+from pydrivingsim import World, Vehicle, TrafficLight, Agent, Obstacle
 
 class GracefulKiller:
   kill_now = False

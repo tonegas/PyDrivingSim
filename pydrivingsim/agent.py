@@ -8,7 +8,7 @@ from datetime import datetime
 import agent.agent_interfaces_connector as agent_lib
 from agent.interfaces_python_data_structs import input_data_str, output_data_str
 
-from pydrivingsim import World, Vehicle, TrafficLight
+from pydrivingsim import World, Vehicle, TrafficLight, Obstacle
 
 
 c = agent_lib.AgentConnector()
