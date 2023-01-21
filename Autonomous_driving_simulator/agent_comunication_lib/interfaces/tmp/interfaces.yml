@@ -1,0 +1,305 @@
+---
+:origin_file: interfaces_v1.2.csv
+:types_table: |
+  :int8 => int16_t
+  :uint8 => uint16_t
+  :int16 => int16_t
+  :uint16 => uint16_t
+  :int32 => int32_t
+  :uint32 => uint32_t
+  :int64 => int64_t
+  :uint64 => uint64_t
+  :char => char
+  :str => char*
+  :float => double
+  :double => double
+:in_struct: !ruby/object:Agent::CStruct
+  name: input_data_str
+  clang_format: 
+  fields:
+  - !ruby/object:Agent::CStructField
+    name: ID
+    type: :int32
+    size: 1
+    comment: "Enumeration \r1=Scenario message\r2=Manoeuvre message,"
+  - !ruby/object:Agent::CStructField
+    name: Version
+    type: :int32
+    size: 1
+    comment: if Version>0 the simulator expects lateral control from ADBoT agent.
+      For Version==0 the built-in lateral control in enabled
+  - !ruby/object:Agent::CStructField
+    name: CycleNumber
+    type: :int32
+    size: 1
+    comment: This is an increasing number increamented at every time-step. It allow
+      to relate the manoeuvre with the corresponding scenario
+  - !ruby/object:Agent::CStructField
+    name: ECUupTime
+    type: :double
+    size: 1
+    comment: Means system up-time. It starts from zero when the simulation begins
+  - !ruby/object:Agent::CStructField
+    name: Status
+    type: :int32
+    size: 1
+    comment: 0 = ACTIVE, 0 > Faild  (means working correctly or not), 0 < Closing
+  - !ruby/object:Agent::CStructField
+    name: VLgtFild
+    type: :double
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: ALgtFild
+    type: :double
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: YawRateFild
+    type: :double
+    size: 1
+    comment: Note that yaw-rate is the derivative of the heading, i.e. chassis rotation
+      rate, not speed rotation rate
+  - !ruby/object:Agent::CStructField
+    name: SteerWhlAg
+    type: :double
+    size: 1
+    comment: Positive when the car is turning left
+  - !ruby/object:Agent::CStructField
+    name: VehicleLen
+    type: :double
+    size: 1
+    comment: Total length from front bumper to the rear bumper
+  - !ruby/object:Agent::CStructField
+    name: VehicleWidth
+    type: :double
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: RequestedCruisingSpeed
+    type: :double
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: AutomationLevel
+    type: :int32
+    size: 1
+    comment: '0 = NO AUTOMATION, 1 = ASSISTED, 2 = PARTIAL AUTOMATION, 3 = CONDITIONAL
+      AUTOMATION, 4 = HIGH AUTOMATION, 5 = FULL AUTOMATION, 6 = UNKNOWN '
+  - !ruby/object:Agent::CStructField
+    name: CurrentLane
+    type: :int32
+    size: 1
+    comment: 'Nomenclature from ADASIS: 0 = Unknown, 1 = Emergency lane, 2 = Single-lane
+      road, 3 = Left-most lane, 4 = Right-most lane, 5 = One of middle lanes on road
+      with three or more lanes'
+  - !ruby/object:Agent::CStructField
+    name: NrObjs
+    type: :int32
+    size: 1
+    comment: Limited to 20 max number of objects, selection needed (if more might
+      be limited to nearest objects)
+  - !ruby/object:Agent::CStructField
+    name: ObjID
+    type: :int32
+    size: 20
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: ObjX
+    type: :double
+    size: 20
+    comment: Center of the object
+  - !ruby/object:Agent::CStructField
+    name: ObjY
+    type: :double
+    size: 20
+    comment: Centre of the object
+  - !ruby/object:Agent::CStructField
+    name: ObjLen
+    type: :double
+    size: 20
+    comment: Along object speed direction, along vehicle axis for stationary obstacles.
+      0 means unknown.
+  - !ruby/object:Agent::CStructField
+    name: ObjWidth
+    type: :double
+    size: 20
+    comment: Perpendicular to object speed direction, perpendicular to vehicle axis
+      for stationary obstacles. 0 means unknown.
+  - !ruby/object:Agent::CStructField
+    name: ObjVel
+    type: :double
+    size: 20
+    comment: Speed module, not longitudinal speed
+  - !ruby/object:Agent::CStructField
+    name: ObjCourse
+    type: :double
+    size: 20
+    comment: In vehicle reference system, positive to the counter-clockwise
+  - !ruby/object:Agent::CStructField
+    name: LaneWidth
+    type: :double
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: LatOffsLineR
+    type: :double
+    size: 1
+    comment: positive to the left
+  - !ruby/object:Agent::CStructField
+    name: LatOffsLineL
+    type: :double
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: LaneHeading
+    type: :double
+    size: 1
+    comment: 'Positive counter-clockwise '
+  - !ruby/object:Agent::CStructField
+    name: LaneCrvt
+    type: :double
+    size: 1
+    comment: Positive for left curves, current curvature (at the cars position)
+  - !ruby/object:Agent::CStructField
+    name: AdasisCurvatureNr
+    type: :int32
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: AdasisCurvatureDist
+    type: :double
+    size: 100
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: AdasisCurvatureValues
+    type: :double
+    size: 100
+    comment: Positive for left curves
+  - !ruby/object:Agent::CStructField
+    name: AdasisSpeedLimitNr
+    type: :int32
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: AdasisSpeedLimitDist
+    type: :double
+    size: 10
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: AdasisSpeedLimitValues
+    type: :int32
+    size: 10
+    comment: 0 means unknown
+  - !ruby/object:Agent::CStructField
+    name: NrTrfLights
+    type: :int32
+    size: 1
+    comment: Only first traffic ligh is described if available
+  - !ruby/object:Agent::CStructField
+    name: TrfLightDist
+    type: :double
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: TrfLightCurrState
+    type: :int32
+    size: 1
+    comment: 1 = Green, 2 = Yellow, 3 = Red, 0 = Flashing
+  - !ruby/object:Agent::CStructField
+    name: TrfLightFirstTimeToChange
+    type: :double
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: TrfLightFirstNextState
+    type: :int32
+    size: 1
+    comment: 1 = Green, 2 = Yellow, 3 = Red, 0 = Flashing
+  - !ruby/object:Agent::CStructField
+    name: TrfLightSecondTimeToChange
+    type: :double
+    size: 1
+    comment: 
+  - !ruby/object:Agent::CStructField
+    name: TrfLightSecondNextState
+    type: :int32
+    size: 1
+    comment: 1 = Green, 2 = Yellow, 3 = Red, 0 = Flashing
+  - !ruby/object:Agent::CStructField
+    name: TrfLightThirdTimeToChange
+    type: :double
+    size: 1
+    comment: 
+:out_struct: !ruby/object:Agent::CStruct
+  name: output_data_str
+  clang_format: 
+  fields:
+  - !ruby/object:Agent::CStructField
+    name: ID
+    type: :int32
+    size: 1
+    comment: "Enumeration \r1=Scenario message\r2=Manoeuvre message,"
+  - !ruby/object:Agent::CStructField
+    name: Version
+    type: :int32
+    size: 1
+    comment: if Version>0 the simulator expects lateral control from ADBoT agent.
+      For Version==0 the built-in lateral control in enabled
+  - !ruby/object:Agent::CStructField
+    name: CycleNumber
+    type: :int32
+    size: 1
+    comment: This is an increasing number increamented at every time-step. It allow
+      to relate the manoeuvre with the corresponding scenario
+  - !ruby/object:Agent::CStructField
+    name: ECUupTime
+    type: :double
+    size: 1
+    comment: Means system up-time. It starts from zero when the simulation begins
+  - !ruby/object:Agent::CStructField
+    name: Status
+    type: :int32
+    size: 1
+    comment: 0 = ACTIVE, 0 > Faild  (means working correctly or not), 0 < Closing
+  - !ruby/object:Agent::CStructField
+    name: NTrajectoryPoints
+    type: :int32
+    size: 1
+    comment: Limited to 23 max number of trajectory points
+  - !ruby/object:Agent::CStructField
+    name: TrajectoryPointITime
+    type: :double
+    size: 23
+    comment: Unix epoch
+  - !ruby/object:Agent::CStructField
+    name: TrajectoryPointIX
+    type: :double
+    size: 23
+    comment: In vehicle reference system
+  - !ruby/object:Agent::CStructField
+    name: TrajectoryPointIY
+    type: :double
+    size: 23
+    comment: In vehicle reference system
+  - !ruby/object:Agent::CStructField
+    name: TargetSpeed
+    type: :double
+    size: 1
+    comment: Speed of the vehicle at the end of the manoeuvre
+  - !ruby/object:Agent::CStructField
+    name: RequestedAcc
+    type: :double
+    size: 1
+    comment: ECU up time when the primitive starts (based on ECUs given by Scenario
+      Messages)
+  - !ruby/object:Agent::CStructField
+    name: ManoeuverType
+    type: :int32
+    size: 1
+    comment: 'E.g: follow object, free flow, stopping, etc.'
+  - !ruby/object:Agent::CStructField
+    name: RequestedSteerWhlAg
+    type: :double
+    size: 1
+    comment: Comanded steering wheel angle, positive counter clockwise.

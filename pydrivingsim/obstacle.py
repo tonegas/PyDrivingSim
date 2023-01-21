@@ -9,7 +9,9 @@ class ObstacleSprite(pygame.sprite.Sprite):
         self.obstacle = obstacle
         image = pygame.image.load("imgs/cone.png").convert_alpha()
         w, h = image.get_size()
-        scale = (World().scaling_factor * 1.5) / w
+        print("larghezza")
+        print(w, h)
+        scale = (World().scaling_factor * 0.9) / w
         self.image_fix = pygame.transform.smoothscale(image, (int(w * scale), int(h * scale)))
 
         self.image = self.image_fix

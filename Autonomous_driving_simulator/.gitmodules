@@ -1,0 +1,3 @@
+[submodule "basic_agent_st/Clothoids"]
+	path = basic_agent_st/Clothoids
+	url = https://github.com/ebertolazzi/Clothoids.git

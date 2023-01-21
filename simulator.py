@@ -21,6 +21,12 @@ def main():
     agent = Agent(vehicle)
     trafficlight = TrafficLight()
     trafficlight.set_pos((162,-2))
+    obstacle1 = Obstacle()
+    obstacle1.set_pos((40,0))
+    obstacle2 = Obstacle()
+    obstacle2.set_pos((70,3))
+    obstacle3 = Obstacle()
+    obstacle3.set_pos((100,0))
 
     killer = GracefulKiller()
     while not killer.kill_now and World().loop:

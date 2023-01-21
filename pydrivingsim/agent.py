@@ -119,6 +119,9 @@ class Agent():
                 trafficlight = obj
                 break
 
+        # Obstacle parameters
+        s.NrObjs = 3
+
         # Trafficlight parameters
         if trafficlight.pos[0] - v.state[0] > -1.5:
             s.NrTrfLights = 1
