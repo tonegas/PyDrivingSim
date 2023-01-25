@@ -9,9 +9,7 @@ class ObstacleSprite(pygame.sprite.Sprite):
         self.obstacle = obstacle
         image = pygame.image.load("imgs/cone.png").convert_alpha()
         w, h = image.get_size()
-        print("larghezza")
-        print(w, h)
-        scale = (World().scaling_factor * 0.9) / w
+        scale = (World().scaling_factor * 1.5) / w
         self.image_fix = pygame.transform.smoothscale(image, (int(w * scale), int(h * scale)))
 
         self.image = self.image_fix
@@ -20,8 +18,8 @@ class ObstacleSprite(pygame.sprite.Sprite):
 
     def update(self) -> None:
         self.rect.center = [
-            self.size[0] / 2 + self.obstacle.pos[0] * World().scaling_factor - World().get_world_pos()[0],
-            self.obstacle.pos[1] * World().scaling_factor - World().get_world_pos()[1]
+            self.obstacle.pos[0] * World().scaling_factor - World().get_world_pos()[0],
+            self.obstacle.pos[1] * World().scaling_factor - World().get_world_pos()[1] - self.size[1]/2
         ]
         self.image = self.image_fix
 
@@ -35,8 +33,10 @@ class Obstacle(VirtualObject):
         self.obstacle = ObstacleSprite(self)
         self.group = pygame.sprite.Group()
         self.group.add(self.obstacle)
-
         self.pos = (0,0)
+        self.lenght = 1.5
+        self.width = 1
+        self.vel = 0
 
         self.clock = None
         self.reset()
