@@ -27,6 +27,9 @@ class VirtualObject():
     def object_freq_compute(self):
         pass
 
+    def reset(self):
+        pass
+
     def render(self):
         pass
 
