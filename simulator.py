@@ -16,21 +16,23 @@ class GracefulKiller:
     self.kill_now = True
 
 def main():
+
+    mode = 0      # mode settings: 0 = basic agent, 1 = obstacles
+
     vehicle = Vehicle()
     vehicle.set_screen_here()
     agent = Agent(vehicle)
     trafficlight = TrafficLight()
     trafficlight.set_pos((162,-2))
 
-    # Obstacles position setting
-    road_width = 3.75
-    white_lane_width = 1
-    obs = Obstacle()
-    obs.set_pos((5,0.5))
-    obs = Obstacle()
-    obs.set_pos((10,2.5))
-    obs = Obstacle()
-    obs.set_pos((15,0.5))
+    if mode == 1:
+      # Obstacles position setting
+      obs = Obstacle()
+      obs.set_pos((50,0.5))
+      obs = Obstacle()
+      obs.set_pos((90,2.5))
+      obs = Obstacle()
+      obs.set_pos((130,0.5))
 
     killer = GracefulKiller()
     while not killer.kill_now and World().loop:
