@@ -17,6 +17,7 @@ class World(metaclass=Singleton):
         "world_size": 400,              # [m] this dimension is maapped on the width of the screen
         "screen_size": ( 1000, 800 ),
         "world_in_screen": 50,
+        "final_time": "inf",
         "dt": 0.001
     }
     def __init__(self):
@@ -76,6 +77,9 @@ class World(metaclass=Singleton):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.loop = 0
+
+        if (not self.__metadata["final_time"]=="inf") and self.time > self.__metadata["final_time"]:
+            self.loop = 0
 
     def exit(self):
         pygame.display.quit()

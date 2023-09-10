@@ -8,7 +8,7 @@ from datetime import datetime
 import agent.agent_interfaces_connector as agent_lib
 from agent.interfaces_python_data_structs import input_data_str, output_data_str
 
-from pydrivingsim import World, Vehicle, TrafficLight
+from pydrivingsim import World, Vehicle, TrafficLight, TrafficCone, Target
 
 
 c = agent_lib.AgentConnector()
@@ -114,24 +114,50 @@ class Agent():
             s.LatOffsLineR = -(s.LaneWidth - road_width/4) + v.state[1]
             s.LatOffsLineL = road_width/4 + v.state[1]
 
+        # Objects parameters (traffic light and obstacles)
+        trafficlight = 0
+        trafficlightDist = 0
+        objId = 0
+        target = 0
         for obj in World().obj_list:
             if type(obj) is TrafficLight:
-                trafficlight = obj
-                break
+                # Get the closest trafficlight in front
+                if trafficlightDist == 0 or (obj.pos[0] - v.state[0] > -1.0 and obj.pos[0] - v.state[0] < trafficlightDist):
+                    trafficlightDist = obj.pos[0] - v.state[0]
+                    trafficlight = obj
 
-        # Trafficlight parameters
-        if trafficlight.pos[0] - v.state[0] > -1.5:
+            if type(obj) is TrafficCone:
+                s.ObjID[objId] = 1
+                s.ObjX[objId] = obj.pos[0] - v.state[0]
+                s.ObjY[objId] = obj.pos[1] - v.state[1]
+                s.ObjVel[objId] = 0
+                s.ObjLen[objId] = obj.lenght
+                s.ObjWidth[objId] = obj.width
+                objId = objId + 1
+
+            if type(obj) is Target:
+                target = obj
+                pass
+
+        s.NrObjs = objId
+
+        s.NrTrfLights = 0
+        if trafficlight:
             s.NrTrfLights = 1
             s.TrfLightDist = trafficlight.pos[0] - v.state[0]
-            s.TrfLightCurrState = trafficlight.state+1        # 1 = Green, 2 = Yellow, 3 = Red, 0 = Flashing
-            s.TrfLightFirstTimeToChange = trafficlight.time_phases[trafficlight.state]-trafficlight.time_past_switch
-            s.TrfLightFirstNextState = divmod(trafficlight.state+1,3)[1]+1
-            s.TrfLightSecondTimeToChange = s.TrfLightFirstTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+1,3)[1]]
-            s.TrfLightSecondNextState = divmod(trafficlight.state+2,3)[1]+1
-            s.TrfLightThirdTimeToChange = s.TrfLightSecondTimeToChange+trafficlight.time_phases[divmod(trafficlight.state+2,3)[1]]
-        else:
-            s.NrTrfLights = 0
-            if trafficlight.pos[0] - v.state[0] < -20.0:
+            s.TrfLightCurrState = trafficlight.state + 1  # 1 = Green, 2 = Yellow, 3 = Red, 0 = Flashing
+            s.TrfLightFirstTimeToChange = trafficlight.time_phases[
+                                              trafficlight.state] - trafficlight.time_past_switch
+            s.TrfLightFirstNextState = divmod(trafficlight.state + 1, 3)[1] + 1
+            s.TrfLightSecondTimeToChange = s.TrfLightFirstTimeToChange + trafficlight.time_phases[
+                divmod(trafficlight.state + 1, 3)[1]]
+            s.TrfLightSecondNextState = divmod(trafficlight.state + 2, 3)[1] + 1
+            s.TrfLightThirdTimeToChange = s.TrfLightSecondTimeToChange + trafficlight.time_phases[
+                divmod(trafficlight.state + 2, 3)[1]]
+
+
+        if target:
+            if abs(target.pos[0] - v.state[0]) < 2.0 and abs(target.pos[1] - v.state[1]) < 2.0:
                 s.Status = 1
 
         # print("CS:" + str(s.TrfLightDist))

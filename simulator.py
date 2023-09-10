@@ -4,7 +4,7 @@
 
 import signal
 
-from pydrivingsim import World, Vehicle, TrafficLight, Agent
+from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone
 
 class GracefulKiller:
   kill_now = False
@@ -16,9 +16,16 @@ class GracefulKiller:
     self.kill_now = True
 
 def main():
+    target = Target()
+    target.set_pos((182, 0))
     vehicle = Vehicle()
     vehicle.set_screen_here()
     agent = Agent(vehicle)
+    cone = TrafficCone()
+    cone.set_pos((20,0))
+    cone = TrafficCone()
+    cone.set_pos((50,0))
+    target.set_pos((182, 0))
     trafficlight = TrafficLight()
     trafficlight.set_pos((162,-2))
 
