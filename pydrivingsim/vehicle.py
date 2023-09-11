@@ -61,6 +61,7 @@ class Vehicle(VirtualObject):
         X = np.zeros(24)
         X[0] = 0
         X[1] = 0
+        X[2] = 0
         X[6] = 906.97882  # [N] vertical force for the rear right wheel
         X[7] = 906.97882  # [N] vertical force for the rear left wheel
         X[8] = 638.09618  # [N] vertical force for the front right wheel
