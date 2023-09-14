@@ -28,12 +28,14 @@ class VehicleSprite(pygame.sprite.Sprite):
         self.size = self.image_fix.get_size()
 
     def update(self, state) -> None:
+        self.image = pygame.transform.rotozoom(self.image_fix, math.degrees(state[2]), 1)
+        rect = self.image.get_rect()
+        rect_fix = self.image_fix.get_rect()
         self.rect.center = [
-            (self.size[0] / 2 + (state[0] - self.vehicle.vehicle.Lr) * World().scaling_factor) - World().get_world_pos()[0],
-            state[1] * World().scaling_factor - World().get_world_pos()[1]
+            (state[0] - World().get_world_pos()[0]) * World().scaling_factor + World().screen_world_center[0] - rect.w/2 + rect_fix.w/2,
+            (World().get_world_pos()[1] - state[1]) * World().scaling_factor + World().screen_world_center[1] - rect.h/2 + rect_fix.h/2
         ]
-        self.image = pygame.transform.rotozoom(self.image_fix, math.degrees(-state[2]), 1)
-    # self.image = pygame.transform.rotate(self.image_fix, math.degrees(-state[2]))
+
 
 class Vehicle(VirtualObject):
     __metadata = {
@@ -70,6 +72,11 @@ class Vehicle(VirtualObject):
         self.t = 0
         self.dX = np.zeros(24)
         self.state = X
+
+    def set_pos_ang(self, point_angle: tuple):
+        self.state[0] = point_angle[0]
+        self.state[1] = point_angle[1]
+        self.state[2] = point_angle[2]
 
     def __discrete(self, x0, dt, dx0=None, actions=None):
         dx = np.asarray(self.__derivs_dynamics(x0, dx0, actions))

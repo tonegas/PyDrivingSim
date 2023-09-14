@@ -1,7 +1,7 @@
 # Authors : Gastone Pietro Rosati Papini
 # Date    : 09/08/2022
 # License : MIT
-
+import math
 import signal
 
 from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone
@@ -17,17 +17,23 @@ class GracefulKiller:
 
 def main():
     target = Target()
-    target.set_pos((182, 0))
+    target.set_pos((182, -1))
+
+    cone = TrafficCone()
+    cone.set_pos((1.0,0))
+    #cone = TrafficCone()
+    #cone.set_pos((1.0,2))
+    #cone = TrafficCone()
+    #cone.set_pos((1.0,-2))
+
+    trafficlight = TrafficLight()
+    trafficlight.set_pos((162,-3))
+
     vehicle = Vehicle()
     vehicle.set_screen_here()
+    vehicle.set_pos_ang((0,2,0))
+
     agent = Agent(vehicle)
-    cone = TrafficCone()
-    cone.set_pos((20,1.75))
-    cone = TrafficCone()
-    cone.set_pos((50,1.75))
-    target.set_pos((182, 0))
-    trafficlight = TrafficLight()
-    trafficlight.set_pos((162,-2))
 
     killer = GracefulKiller()
     while not killer.kill_now and World().loop:
@@ -36,6 +42,7 @@ def main():
 
         vehicle.set_screen_here()
         vehicle.control([action[0], action[1]])
+        vehicle.control([1, action[1]])
 
         World().update()
 

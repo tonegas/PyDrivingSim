@@ -14,9 +14,8 @@ class Singleton(type):
 class World(metaclass=Singleton):
     __metadata = {
         "render_fps": 50,
-        "world_size": 400,              # [m] this dimension is maapped on the width of the screen
         "screen_size": ( 1000, 800 ),
-        "world_in_screen": 50,
+        "world_in_screen": 55,
         "final_time": "inf",
         "dt": 0.001
     }
@@ -37,13 +36,17 @@ class World(metaclass=Singleton):
         self.clock = pygame.time.Clock()
         self.time = 0
 
-        self.set_world_pos((0,0))
-        self.bg_pos=(-500,-1725)
+        # where is in the sceen the (0,0) coordinate
+        self.screen_world_center = (250 , self.__metadata["screen_size"][1] / 2)
+        # backgound offset
+        self.bg_pos = (-1100,-1745)
+        # initial world position
+        self.set_world_pos((0, 0))
 
         self.obj_list = []
 
     def set_world_pos(self, pos):
-        self.world_pos = ( pos[0] * self.scaling_factor - self.__metadata["screen_size"][0] / 2 , pos[1] * self.scaling_factor - self.__metadata["screen_size"][1] / 2 )
+        self.world_pos = pos
 
     def get_world_pos(self):
         return self.world_pos
@@ -55,7 +58,11 @@ class World(metaclass=Singleton):
         self.obj_list.append(object)
 
     def _render(self):
-        self.screen.blit(self.backgorund, (self.bg_pos[0]-self.world_pos[0],self.bg_pos[1]-self.world_pos[1]))
+        # move background in the 0,0 configuration, move the backgound in the position of the moving world, center the view
+        screen_x_pos = self.bg_pos[0] - self.world_pos[0] * self.scaling_factor + self.__metadata["screen_size"][0] / 2
+        # the minus sign there is because the graph y axis points downward.
+        screen_y_pos = self.bg_pos[1] + self.world_pos[1] * self.scaling_factor + self.__metadata["screen_size"][1] / 2
+        self.screen.blit(self.backgorund, (screen_x_pos,screen_y_pos))
         for obj in self.obj_list:
             obj.render()
 

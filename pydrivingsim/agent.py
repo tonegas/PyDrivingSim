@@ -4,6 +4,7 @@
 
 import ctypes as ct
 from datetime import datetime
+from math import *
 
 import agent.agent_interfaces_connector as agent_lib
 from agent.interfaces_python_data_structs import input_data_str, output_data_str
@@ -99,7 +100,9 @@ class Agent():
         # Vehicle parameters
         s.VehicleLen = v.vehicle.vehicle.L                          # double - lenght dimension [m]
         s.VehicleWidth = v.vehicle.vehicle.Wf                       # double - width dimension [m]
-        s.LaneHeading = v.state[2]
+        s.LaneHeading = -v.state[2]
+        #print(v.state[2])
+        #print((v.state[0],v.state[1]))
         s.VLgtFild = v.state[3]
         s.ALgtFild = self.ALgtFild/self.num_of_step
         s.YawRateFild = self.YawRateFild/self.num_of_step
@@ -107,12 +110,12 @@ class Agent():
         s.RequestedCruisingSpeed = self.requested_cruising_speed
 
         # Lateral Position
-        road_width = 3.75
-        road_pos = v.state[1] - road_width/4
-        if abs(road_pos) <= (road_width/2):
+        road_width = 4
+        road_pos = v.state[1] - road_width/2
+        if abs(road_pos) <= (road_width):
             s.LaneWidth = road_width
-            s.LatOffsLineR = -(s.LaneWidth - road_width/4) + v.state[1]
-            s.LatOffsLineL = road_width/4 + v.state[1]
+            s.LatOffsLineR = (s.LaneWidth - road_width/2) - v.state[1]
+            s.LatOffsLineL = - road_width/2 - v.state[1]
 
         # Objects parameters (traffic light and obstacles)
         trafficlight = 0
@@ -128,8 +131,10 @@ class Agent():
 
             if type(obj) is TrafficCone:
                 s.ObjID[objId] = 1
-                s.ObjX[objId] = obj.pos[0] - v.state[0]
-                s.ObjY[objId] = obj.pos[1] - v.state[1]
+                delta_x = obj.pos[0] - v.state[0]
+                delta_y = obj.pos[1] - v.state[1]
+                s.ObjX[objId] = delta_x * cos(v.state[2]) + delta_y * sin(v.state[2])
+                s.ObjY[objId] = - delta_x * sin(v.state[2]) + delta_y * cos(v.state[2])
                 s.ObjVel[objId] = 0
                 s.ObjLen[objId] = obj.lenght
                 s.ObjWidth[objId] = obj.width

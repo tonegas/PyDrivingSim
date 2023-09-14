@@ -30,11 +30,10 @@ class TrafficLightSprite(pygame.sprite.Sprite):
 
     def update(self) -> None:
         self.rect.center = [
-            self.size[0] / 2 + self.trafficlight.pos[0] * World().scaling_factor - World().get_world_pos()[0],
-            self.trafficlight.pos[1] * World().scaling_factor - World().get_world_pos()[1]
+            (self.trafficlight.pos[0] - World().get_world_pos()[0]) * World().scaling_factor + World().screen_world_center[0],
+            (World().get_world_pos()[1] - self.trafficlight.pos[1]) * World().scaling_factor + World().screen_world_center[1]
         ]
         self.image = self.image_fix[self.trafficlight.state]
-
 
 class TrafficLight(VirtualObject):
     __metadata = {

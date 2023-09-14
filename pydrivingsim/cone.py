@@ -29,11 +29,10 @@ class ConeSprite(pygame.sprite.Sprite):
 
     def update(self) -> None:
         self.rect.center = [
-            self.size[0] / 2 + self.trafficcone.pos[0] * World().scaling_factor - World().get_world_pos()[0],
-            self.trafficcone.pos[1] * World().scaling_factor - World().get_world_pos()[1]
+            (self.trafficcone.pos[0] - World().get_world_pos()[0]) * World().scaling_factor + World().screen_world_center[0],
+            (World().get_world_pos()[1] - self.trafficcone.pos[1]) * World().scaling_factor + World().screen_world_center[1]
         ]
         self.image = self.image_fix[self.trafficcone.state]
-
 
 class TrafficCone(VirtualObject):
     __metadata = {
