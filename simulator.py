@@ -21,17 +21,17 @@ def main():
 
     cone = TrafficCone()
     cone.set_pos((1.0,0))
-    #cone = TrafficCone()
-    #cone.set_pos((1.0,2))
-    #cone = TrafficCone()
-    #cone.set_pos((1.0,-2))
+    cone = TrafficCone()
+    cone.set_pos((1.0,2))
+    cone = TrafficCone()
+    cone.set_pos((1.0,-2))
 
     trafficlight = TrafficLight()
-    trafficlight.set_pos((162,-3))
+    trafficlight.set_pos((160,-3))
 
     vehicle = Vehicle()
     vehicle.set_screen_here()
-    vehicle.set_pos_ang((0,2,0))
+    vehicle.set_pos_ang((0,-1,0))
 
     agent = Agent(vehicle)
 
@@ -42,7 +42,6 @@ def main():
 
         vehicle.set_screen_here()
         vehicle.control([action[0], action[1]])
-        vehicle.control([1, action[1]])
 
         World().update()
 
