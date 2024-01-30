@@ -1,4 +1,4 @@
-# Authors : Gastone Pietro Rosati Papini and
+# Authors : Gastone Pietro Rosati Papini and Matteo Zumerle
 # Date    : 30/01/2024
 # License : MIT
 
