@@ -96,12 +96,6 @@ class Vehicle(VirtualObject):
         self.state = next_state
         self.dX = next_dX # potrei cambiarlo in qualcosa del tipo (next_state - self.state)/dt
 
-    # def step(self):
-    #     self.num_of_step += 1
-    #     if self.num_of_step >= self.sim_call_freq:
-    #         self.__step()
-    #         self.num_of_step = 0
-
     def set_screen_here(self):
         World().set_world_pos((self.state[0],self.state[1]))
 

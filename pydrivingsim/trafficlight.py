@@ -15,12 +15,13 @@ from pydrivingsim import VirtualObject, World
 class TrafficLightSprite(pygame.sprite.Sprite):
     def __init__(self, trafficlight):
         super().__init__()
-        img_list = ["imgs/trafficlight_green.png", "imgs/trafficlight_yellow.png", "imgs/trafficlight_red.png"]
+        folder = "imgs/trafficlight/"
+        img_list = [folder+"trafficlight_green.png", folder+"trafficlight_yellow.png", folder+"trafficlight_red.png"]
         self.image_fix = []
         for i,img in enumerate(img_list):
             sprite = pygame.image.load(img).convert_alpha()
             w, h = sprite.get_size()
-            scale = (World().scaling_factor * 0.7) / w
+            scale = (World().scaling_factor * trafficlight.scale) / w
             self.image_fix.append(pygame.transform.smoothscale(sprite, (int(w * scale), int(h * scale))))
 
         self.image = self.image_fix[0]
@@ -42,6 +43,7 @@ class TrafficLight(VirtualObject):
     def __init__( self ):
         super().__init__(self.__metadata["dt"])
         # Sprite
+        self.scale = 0.7
         self.trafficlight = TrafficLightSprite(self)
         self.group = pygame.sprite.Group()
         self.group.add(self.trafficlight)
@@ -70,15 +72,6 @@ class TrafficLight(VirtualObject):
         if self.time_past_switch >= self.time_phases[self.state]:
             self.state = divmod(self.state + 1, 3)[1]
             self.time_past_switch = 0
-
-    # def step(self):
-    #     self.num_of_step += 1
-    #     if self.num_of_step >= self.sim_call_freq:
-    #         self.time_past_switch += self.__metadata["dt"]
-    #         if self.time_past_switch >= self.time_phases[self.state]:
-    #             self.state = divmod(self.state + 1,3)[1]
-    #             self.time_past_switch = 0
-    #         self.num_of_step = 0
 
     def render( self ):
         self.trafficlight.update()

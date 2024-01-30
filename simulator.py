@@ -4,7 +4,7 @@
 import math
 import signal
 
-from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone
+from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone, SuggestedSpeedSignal, GraphicObject
 
 class GracefulKiller:
   kill_now = False
@@ -28,6 +28,15 @@ def main():
 
     trafficlight = TrafficLight()
     trafficlight.set_pos((160,-3))
+
+    signal = SuggestedSpeedSignal(10)
+    signal.set_pos((50, 4))
+    bologna = GraphicObject("imgs/pictures/bologna.png", 35)
+    bologna.set_pos((67,12))
+    signal = SuggestedSpeedSignal(90)
+    signal.set_pos((96, 4))
+    super = GraphicObject("imgs/pictures/superstrada.png", 5)
+    super.set_pos((100,6))
 
     vehicle = Vehicle()
     vehicle.set_screen_here()

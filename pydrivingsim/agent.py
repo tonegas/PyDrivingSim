@@ -9,7 +9,7 @@ from math import *
 import agent.agent_interfaces_connector as agent_lib
 from agent.interfaces_python_data_structs import input_data_str, output_data_str
 
-from pydrivingsim import World, Vehicle, TrafficLight, TrafficCone, Target
+from pydrivingsim import World, Vehicle, TrafficLight, TrafficCone, Target, SuggestedSpeedSignal
 
 
 c = agent_lib.AgentConnector()
@@ -120,6 +120,7 @@ class Agent():
         # Objects parameters (traffic light and obstacles)
         trafficlight = 0
         trafficlightDist = 0
+        speedlimitId = 0
         objId = 0
         target = 0
         for obj in World().obj_list:
@@ -136,15 +137,21 @@ class Agent():
                 s.ObjX[objId] = delta_x * cos(v.state[2]) + delta_y * sin(v.state[2])
                 s.ObjY[objId] = - delta_x * sin(v.state[2]) + delta_y * cos(v.state[2])
                 s.ObjVel[objId] = 0
-                s.ObjLen[objId] = obj.lenght
-                s.ObjWidth[objId] = obj.width
+                s.ObjLen[objId] = obj.size
+                s.ObjWidth[objId] = obj.size
                 objId = objId + 1
+
+            if type(obj) is SuggestedSpeedSignal:
+                s.AdasisSpeedLimitValues[speedlimitId] = obj.vel
+                s.AdasisSpeedLimitDist[speedlimitId] = obj.pos[0] - v.state[0]
+                speedlimitId = speedlimitId + 1
 
             if type(obj) is Target:
                 target = obj
                 pass
 
         s.NrObjs = objId
+        s.AdasisSpeedLimitNr = speedlimitId
 
         s.NrTrfLights = 0
         if trafficlight:

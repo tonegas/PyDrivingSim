@@ -19,7 +19,7 @@ class TargetSprite(pygame.sprite.Sprite):
         self.image_fix = []
         sprite = pygame.image.load(img).convert_alpha()
         w, h = sprite.get_size()
-        scale = (World().scaling_factor * 0.6) / w
+        scale = (World().scaling_factor * target.scale) / w
         self.image_fix.append(pygame.transform.smoothscale(sprite, (int(w * scale), int(h * scale))))
 
         self.image = self.image_fix[0]
@@ -41,6 +41,7 @@ class Target(VirtualObject):
     def __init__( self ):
         super().__init__(self.__metadata["dt"])
         # Sprite
+        self.scale = 0.6
         self.target = TargetSprite(self)
         self.group = pygame.sprite.Group()
         self.group.add(self.target)
