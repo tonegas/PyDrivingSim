@@ -4,7 +4,8 @@
 import math
 import signal
 
-from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone, SuggestedSpeedSignal, GraphicObject
+from pydrivingsim import World
+from scenarios import BasicSpeedLimit, BasicTrafficLight, OnlyVehicle, AutonomousVehicle
 
 class GracefulKiller:
   kill_now = False
@@ -16,45 +17,17 @@ class GracefulKiller:
     self.kill_now = True
 
 def main():
-    target = Target()
-    target.set_pos((182, -1))
-
-    cone = TrafficCone()
-    cone.set_pos((1.0,0))
-    cone = TrafficCone()
-    cone.set_pos((1.0,2))
-    cone = TrafficCone()
-    cone.set_pos((1.0,-2))
-
-    trafficlight = TrafficLight()
-    trafficlight.set_pos((160,-3))
-
-    signal = SuggestedSpeedSignal(10)
-    signal.set_pos((50, 4))
-    bologna = GraphicObject("imgs/pictures/bologna.png", 35)
-    bologna.set_pos((67,12))
-    signal = SuggestedSpeedSignal(90)
-    signal.set_pos((96, 4))
-    super = GraphicObject("imgs/pictures/superstrada.png", 5)
-    super.set_pos((100,6))
-
-    vehicle = Vehicle()
-    vehicle.set_screen_here()
-    vehicle.set_pos_ang((0,-1,0))
-
-    agent = Agent(vehicle)
+    #av = OnlyVehicle()
+    av = AutonomousVehicle()
+    BasicTrafficLight()
+    BasicSpeedLimit()
 
     killer = GracefulKiller()
     while not killer.kill_now and World().loop:
-        agent.compute()
-        action = agent.get_action()
-
-        vehicle.set_screen_here()
-        vehicle.control([action[0], action[1]])
-
+        av.update()
         World().update()
 
-    agent.terminate()
+    av.terminate()
     World().exit()
 
 main()
