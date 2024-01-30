@@ -55,6 +55,7 @@ class Vehicle(VirtualObject):
         self.clock = None
         self.state = None
 
+        self.pos = (0, 0)
         self.action = (0,0)
         self.reset()
 
@@ -72,6 +73,7 @@ class Vehicle(VirtualObject):
         self.t = 0
         self.dX = np.zeros(24)
         self.state = X
+        self.pos = (self.state[0], self.state[1])
 
     def set_pos_ang(self, point_angle: tuple):
         self.state[0] = point_angle[0]
@@ -94,6 +96,7 @@ class Vehicle(VirtualObject):
         next_state, next_dX = self.__discrete(self.state, self.__metadata["dt"], self.dX, self.action)
 
         self.state = next_state
+        self.pos = (self.state[0], self.state[1])
         self.dX = next_dX # potrei cambiarlo in qualcosa del tipo (next_state - self.state)/dt
 
     def set_screen_here(self):

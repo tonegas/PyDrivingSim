@@ -42,13 +42,16 @@ class Target(VirtualObject):
         super().__init__(self.__metadata["dt"])
         # Sprite
         self.scale = 0.6
-        self.target = TargetSprite(self)
+        self.sprite = TargetSprite(self)
         self.group = pygame.sprite.Group()
-        self.group.add(self.target)
+        self.group.add(self.sprite)
 
         self.state = 0
         self.pos = (0,0)
         self.reset()
+
+    def set_object(self, obj):
+        self.obj = obj
 
     def set_pos(self, point: tuple):
         self.pos = point
@@ -57,5 +60,7 @@ class Target(VirtualObject):
         self.state = 0
 
     def render( self ):
-        self.target.update()
+        self.sprite.update()
         self.group.draw(World().screen)
+        if abs(self.pos[0] - self.obj.pos[0]) < 1.0 and abs(self.pos[1] - self.obj.pos[1]) < 1.0:
+            World().loop = 0

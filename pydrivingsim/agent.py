@@ -87,7 +87,6 @@ class Agent():
         # Closing env if agent request to close
         if m.Status == 1:
             self.terminate()
-            World().exit()
 
         # Basic parameters
         self.cycle_number += 1
@@ -146,10 +145,6 @@ class Agent():
                 s.AdasisSpeedLimitDist[speedlimitId] = obj.pos[0] - v.state[0]
                 speedlimitId = speedlimitId + 1
 
-            if type(obj) is Target:
-                target = obj
-                pass
-
         s.NrObjs = objId
         s.AdasisSpeedLimitNr = speedlimitId
 
@@ -166,11 +161,6 @@ class Agent():
             s.TrfLightSecondNextState = divmod(trafficlight.state + 2, 3)[1] + 1
             s.TrfLightThirdTimeToChange = s.TrfLightSecondTimeToChange + trafficlight.time_phases[
                 divmod(trafficlight.state + 2, 3)[1]]
-
-
-        if target:
-            if abs(target.pos[0] - v.state[0]) < 2.0 and abs(target.pos[1] - v.state[1]) < 2.0:
-                s.Status = 1
 
         # print("CS:" + str(s.TrfLightDist))
         # print("CS:" + str(s.TrfLightCurrState))
@@ -192,8 +182,8 @@ class Agent():
         self.action = (m.RequestedAcc,m.RequestedSteerWhlAg)
 
     def terminate(self):
-        # Basic parameters
         World().loop = 0
+
         self.cycle_number += 1
         self.scenario_msg.CycleNumber = self.cycle_number
         self.scenario_msg.TimeStamp = ct.c_double(datetime.timestamp(datetime.now()))
