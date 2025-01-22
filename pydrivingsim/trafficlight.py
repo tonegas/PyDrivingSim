@@ -49,7 +49,7 @@ class TrafficLight(VirtualObject):
         self.group.add(self.trafficlight)
 
         self.pos = (0,0)
-        self.time_phases = (8,3,8)
+        self.time_phases = (8,3,25)
         self.time_past_switch = 0
 
         self.clock = None

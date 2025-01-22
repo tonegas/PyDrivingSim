@@ -9,7 +9,7 @@ from math import *
 import agent.agent_interfaces_connector as agent_lib
 from agent.interfaces_python_data_structs import input_data_str, output_data_str
 
-from pydrivingsim import World, Vehicle, TrafficLight, TrafficCone, Target, SuggestedSpeedSignal
+from pydrivingsim import World, Vehicle, TrafficLight, TrafficCone, Target, SuggestedSpeedSignal, Coin
 
 
 c = agent_lib.AgentConnector()
@@ -131,6 +131,17 @@ class Agent():
 
             if type(obj) is TrafficCone:
                 s.ObjID[objId] = 1
+                delta_x = obj.pos[0] - v.state[0]
+                delta_y = obj.pos[1] - v.state[1]
+                s.ObjX[objId] = delta_x * cos(v.state[2]) + delta_y * sin(v.state[2])
+                s.ObjY[objId] = - delta_x * sin(v.state[2]) + delta_y * cos(v.state[2])
+                s.ObjVel[objId] = 0
+                s.ObjLen[objId] = obj.size
+                s.ObjWidth[objId] = obj.size
+                objId = objId + 1
+
+            if type(obj) is Coin:
+                s.ObjID[objId] = 2
                 delta_x = obj.pos[0] - v.state[0]
                 delta_y = obj.pos[1] - v.state[1]
                 s.ObjX[objId] = delta_x * cos(v.state[2]) + delta_y * sin(v.state[2])

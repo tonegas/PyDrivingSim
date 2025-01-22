@@ -1,5 +1,5 @@
 
-from pydrivingsim import TrafficLight, Target, TrafficCone, SuggestedSpeedSignal, GraphicObject, Vehicle, Agent
+from pydrivingsim import TrafficLight, Target, TrafficCone, SuggestedSpeedSignal, GraphicObject, Vehicle, Agent, Coin
 
 class OnlyVehicle():
     def __init__(self):
@@ -57,6 +57,30 @@ class BasicTrafficLight():
 
         trafficlight = TrafficLight()
         trafficlight.set_pos((160,-3))
+
+class GetTheCoins():
+    def __init__(self):
+        # Added point in zero to be able to start with a reference
+        coin = Coin()
+        coin.set_pos((0,-1))
+
+        # Targets to avoid cones
+        coin = Coin()
+        coin.set_pos((10,-1))
+        coin = Coin()
+        coin.set_pos((35,1))
+        coin = Coin()
+        coin.set_pos((60,-1))
+        coin = Coin()
+        coin.set_pos((100,1))
+        coin = Coin()
+        coin.set_pos((130,-1))
+
+        # Add two final points to stabilize the trajectory
+        coin = Coin()
+        coin.set_pos((160,-1))
+        coin = Coin()
+        coin.set_pos((182,-1))
 
 
 class BasicSpeedLimit():
