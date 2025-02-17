@@ -57,6 +57,7 @@ class BasicTrafficLight():
 
         trafficlight = TrafficLight()
         trafficlight.set_pos((160,-3))
+        trafficlight.reset()
 
 class GetTheCoins():
     def __init__(self):

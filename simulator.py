@@ -24,7 +24,7 @@ def main():
     # Enable this to test the coins
     #GetTheCoins()
     # Enable this to test the speed limit
-    #BasicSpeedLimit()
+    BasicSpeedLimit()
 
     killer = GracefulKiller()
     while not killer.kill_now and World().loop:

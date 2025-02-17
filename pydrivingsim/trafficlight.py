@@ -62,10 +62,16 @@ class TrafficLight(VirtualObject):
     def set_time_phases(self, time_phases: tuple):
         self.time_phases = time_phases
 
-    def reset( self ):
+    def reset( self, state = None, time_past_switch = None ):
         #Initial condition of the vehicle
-        self.state = random.randint(0, 2)
-        self.time_past_switch = random.random()*self.time_phases[self.state]
+        if state is not None:
+            self.state = state
+        else:
+            self.state = random.randint(0, 2)
+        if time_past_switch is not None:
+            self.time_past_switch = time_past_switch
+        else:
+            self.time_past_switch = random.random()*self.time_phases[self.state]
 
     def object_freq_compute(self):
         self.time_past_switch += self.__metadata["dt"]
