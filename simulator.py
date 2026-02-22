@@ -5,7 +5,7 @@ import math
 import signal
 
 from pydrivingsim import World
-from scenarios import BasicSpeedLimit, BasicTrafficLight, OnlyVehicle, AutonomousVehicle, GetTheCoins
+from scenarios import BasicSpeedLimit, Scenario_BasicTL, OnlyVehicle, AutonomousVehicle, GetTheCoins, DrawPath
 
 class GracefulKiller:
   kill_now = False
@@ -17,14 +17,14 @@ class GracefulKiller:
     self.kill_now = True
 
 def main():
+    # Enable this to draw path into m.m.TrajectoryPointIX
+    DrawPath()
     # Enable this to test only single vehicle
     #av = OnlyVehicle()
     av = AutonomousVehicle()
-    BasicTrafficLight()
-    # Enable this to test the coins
-    #GetTheCoins()
-    # Enable this to test the speed limit
-    BasicSpeedLimit()
+    
+    # choose the scenario
+    Scenario_BasicTL(av) #straight road with the traffic light
 
     killer = GracefulKiller()
     while not killer.kill_now and World().loop:
