@@ -92,3 +92,9 @@ class World(metaclass=Singleton):
         pygame.display.quit()
         pygame.quit()
         exit()
+        
+    # Added
+    def set_background(self, image_path, bg_pos=None):
+        self.backgorund = pygame.image.load(image_path)
+        if bg_pos:
+            self.bg_pos = bg_pos
