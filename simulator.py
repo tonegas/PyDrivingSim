@@ -5,7 +5,7 @@ import math
 import signal
 
 from pydrivingsim import World
-from scenarios import BasicSpeedLimit, BasicTrafficLight, OnlyVehicle, AutonomousVehicle, GetTheCoins
+from scenarios import BasicSpeedLimit, Scenario_BasicTL, OnlyVehicle, AutonomousVehicle, GetTheCoins
 
 class GracefulKiller:
   kill_now = False
@@ -20,7 +20,7 @@ def main():
     # Enable this to test only single vehicle
     #av = OnlyVehicle()
     av = AutonomousVehicle()
-    BasicTrafficLight()
+    Scenario_BasicTL()
     # Enable this to test the coins
     #GetTheCoins()
     # Enable this to test the speed limit

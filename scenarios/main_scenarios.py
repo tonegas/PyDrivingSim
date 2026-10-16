@@ -1,5 +1,5 @@
 
-from pydrivingsim import TrafficLight, Target, TrafficCone, SuggestedSpeedSignal, GraphicObject, Vehicle, Agent, Coin
+from pydrivingsim import TrafficLight, Target, TrafficCone, SuggestedSpeedSignal, GraphicObject, Vehicle, Agent, Coin, Rock
 
 class OnlyVehicle():
     def __init__(self):
@@ -46,15 +46,24 @@ class AutonomousVehicle():
         self.agent.terminate()
 
 
-class BasicTrafficLight():
+class Scenario_BasicTL():
     def __init__(self):
+    
+        # draw the cones
         cone = TrafficCone()
         cone.set_pos((1.0,0))
         cone = TrafficCone()
         cone.set_pos((1.0,2))
         cone = TrafficCone()
         cone.set_pos((1.0,-2))
+        
+        # draw the rocks
+        rock = Rock()
+        rock.set_pos_size((1, -5), 2.0, 2.0)
+        rock = Rock()
+        rock.set_pos_size((1, 5), 1.0, 1.0)
 
+        # set pos of the TL
         trafficlight = TrafficLight()
         trafficlight.set_pos((160,-3))
         trafficlight.reset()
@@ -94,3 +103,10 @@ class BasicSpeedLimit():
         signal.set_pos((96, 4))
         super = GraphicObject("imgs/pictures/superstrada.png", 5)
         super.set_pos((100,6))
+        
+class ObstacleRocks():
+    def __init__(self):
+        rock = Rock()
+        rock.set_pos_size((20, -2), 2.0, 2.0)
+        rock = Rock()
+        rock.set_pos_size((45, 2), 3.0, 4.0)
