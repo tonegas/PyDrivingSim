@@ -9,7 +9,7 @@ from math import *
 import agent.agent_interfaces_connector as agent_lib
 from agent.interfaces_python_data_structs import input_data_str, output_data_str
 
-from pydrivingsim import World, Vehicle, TrafficLight, TrafficCone, Target, SuggestedSpeedSignal, Coin
+from pydrivingsim import World, Vehicle, TrafficLight, TrafficCone, Target, SuggestedSpeedSignal, Coin, Rock, RoadSegment, GPS
 
 
 c = agent_lib.AgentConnector()
@@ -99,7 +99,7 @@ class Agent():
         # Vehicle parameters
         s.VehicleLen = v.vehicle.vehicle.L                          # double - lenght dimension [m]
         s.VehicleWidth = v.vehicle.vehicle.Wf                       # double - width dimension [m]
-        s.LaneHeading = -v.state[2]
+        s.LaneHeading = v.state[2]
         #print(v.state[2])
         #print((v.state[0],v.state[1]))
         s.VLgtFild = v.state[3]
@@ -155,6 +155,48 @@ class Agent():
                 s.AdasisSpeedLimitValues[speedlimitId] = obj.vel
                 s.AdasisSpeedLimitDist[speedlimitId] = obj.pos[0] - v.state[0]
                 speedlimitId = speedlimitId + 1
+                
+            # Code for sending RockObstacle information
+            if type(obj) is Rock:
+                s.ObjID[objId] = 3
+                delta_x = obj.pos[0] - v.state[0]
+                delta_y = obj.pos[1] - v.state[1]
+                s.ObjX[objId] = delta_x * cos(v.state[2]) + delta_y * sin(v.state[2])
+                s.ObjY[objId] = - delta_x * sin(v.state[2]) + delta_y * cos(v.state[2])
+                s.ObjVel[objId] = 0
+                s.ObjLen[objId] = obj.len
+                s.ObjWidth[objId] = obj.width
+                objId = objId + 1
+                
+            # Code for sending target information
+            if type(obj) is Target:
+                s.ObjID[objId] = 5
+                delta_x = obj.pos[0] - v.state[0]
+                delta_y = obj.pos[1] - v.state[1]
+                s.ObjX[objId] = delta_x * cos(v.state[2]) + delta_y * sin(v.state[2])
+                s.ObjY[objId] = - delta_x * sin(v.state[2]) + delta_y * cos(v.state[2])
+                s.ObjVel[objId] = 0
+                objId = objId + 1
+               
+            # Code for sending RoadSegment information
+            if type(obj) is RoadSegment:
+                s.ObjID[objId] = obj.type_id  # 4=Asphalt; 6=Dirt
+                delta_x = obj.pos[0] - v.state[0]
+                delta_y = obj.pos[1] - v.state[1]
+                s.ObjX[objId] = delta_x * cos(v.state[2]) + delta_y * sin(v.state[2])
+                s.ObjY[objId] = - delta_x * sin(v.state[2]) + delta_y * cos(v.state[2])
+                s.ObjVel[objId] = 0
+                s.ObjLen[objId] = obj.length
+                s.ObjWidth[objId] = obj.width
+                objId = objId + 1
+                
+            # Code for GPS information
+            if type(obj) is GPS:
+                s.ObjID[objId] = 99
+                s.ObjX[objId] = v.state[0]
+                s.ObjY[objId] = v.state[1]
+                s.ObjVel[objId] = 0
+                objId = objId + 1
 
         s.NrObjs = objId
         s.AdasisSpeedLimitNr = speedlimitId

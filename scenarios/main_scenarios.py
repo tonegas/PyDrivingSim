@@ -1,5 +1,5 @@
 
-from pydrivingsim import TrafficLight, Target, TrafficCone, SuggestedSpeedSignal, GraphicObject, Vehicle, Agent, Coin
+from pydrivingsim import TrafficLight, Target, TrafficCone, SuggestedSpeedSignal, GraphicObject, Vehicle, Agent, Coin, Rock, RoadSegment, World, GPS
 
 class OnlyVehicle():
     def __init__(self):
@@ -26,14 +26,10 @@ class AutonomousVehicle():
         self.vehicle = Vehicle()
         self.vehicle.set_screen_here()
         self.vehicle.set_pos_ang((0, -1, 0))
+        self.gps = GPS(self.vehicle)
 
         #Initialize the agent
         self.agent = Agent(self.vehicle)
-
-        #Initialize target
-        target = Target()
-        target.set_pos((182, -1))
-        target.set_object(self.vehicle)
 
     def update(self):
         self.agent.compute()
@@ -46,18 +42,51 @@ class AutonomousVehicle():
         self.agent.terminate()
 
 
-class BasicTrafficLight():
-    def __init__(self):
+class Scenario_BasicTL():
+    def __init__(self, av):
+    
+        # draw the background image
+        World().set_background("imgs/bg.jpeg", bg_pos=(-1100,-1745))
+    
+        # draw the rectangle of terrain
+        # (x, y) is the CENTER of the segment
+        segm = RoadSegment(x=90, y=0, length=270, width=4, terrain_type="asphalt")
+        
+        # draw the vehicle
+        # remove and add the vehicle to put it in the focus
+        if av.vehicle in World().obj_list:
+            World().obj_list.remove(av.vehicle)
+        World().obj_list.append(av.vehicle)
+        av.vehicle.set_pos_ang((0,-1,0))
+        
+        #Initialize target
+        target = Target()
+        target.set_pos((220, -1))
+        target.set_object(av.vehicle)
+        
+        # draw the cones
         cone = TrafficCone()
         cone.set_pos((1.0,0))
         cone = TrafficCone()
         cone.set_pos((1.0,2))
         cone = TrafficCone()
         cone.set_pos((1.0,-2))
+        
+        # draw the rocks
+        #rock = Rock()
+        #rock.set_pos_size((1, -5), 2.0, 2.0)
+        #rock = Rock()
+        #rock.set_pos_size((1, 5), 1.0, 1.0)
 
+        # set pos of the TL
         trafficlight = TrafficLight()
         trafficlight.set_pos((160,-3))
         trafficlight.reset()
+        
+        # Enable this to test the coins
+        #GetTheCoins()
+        # Enable this to test the speed limit
+        #BasicSpeedLimit()
 
 class GetTheCoins():
     def __init__(self):
@@ -94,3 +123,10 @@ class BasicSpeedLimit():
         signal.set_pos((96, 4))
         super = GraphicObject("imgs/pictures/superstrada.png", 5)
         super.set_pos((100,6))
+        
+class ObstacleRocks():
+    def __init__(self):
+        rock = Rock()
+        rock.set_pos_size((20, -2), 2.0, 2.0)
+        rock = Rock()
+        rock.set_pos_size((45, 2), 3.0, 4.0)

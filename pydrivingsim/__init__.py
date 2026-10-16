@@ -13,5 +13,10 @@ from pydrivingsim.target import Target
 from pydrivingsim.suggestedspeedsignal import SuggestedSpeedSignal
 from pydrivingsim.graphicobject import GraphicObject
 
+from pydrivingsim.rock import Rock
+from pydrivingsim.gps import GPS
+from pydrivingsim.roadsegment import RoadSegment
+from pydrivingsim.world import World
+
 # The Agent
 from pydrivingsim.agent import Agent
